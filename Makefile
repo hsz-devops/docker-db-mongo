@@ -20,8 +20,9 @@ rebuild: _DOCKER_BUILD_OPTS=--no-cache $(BUILD_OPTS)
 rebuild: _build_image
 
 _build_image: _check-env-base
-	docker build $(_DOCKER_BUILD_OPTS) -t $(IMAGE_NAME):2.6 ./2.6
-	docker build $(_DOCKER_BUILD_OPTS) -t $(IMAGE_NAME):3.2 ./3.2
+	docker build $(_DOCKER_BUILD_OPTS) -t $(IMAGE_NAME):2.6     ./2.6
+	docker build $(_DOCKER_BUILD_OPTS) -t $(IMAGE_NAME):2.6-ssl ./2.6-ssl
+	docker build $(_DOCKER_BUILD_OPTS) -t $(IMAGE_NAME):3.2     ./3.2
 
 # --------------------------------------------------------------------------
 _check-env-base:
@@ -32,15 +33,19 @@ _check-env-base:
 shell:shell-32
 
 shell-26: _check-env-base
-	docker run --rm -it $(IMAGE_NAME):2.6 bash
+	docker run --rm -it $(IMAGE_NAME):2.6     bash
+
+shell-26ssl: _check-env-base
+	docker run --rm -it $(IMAGE_NAME):2.6-ssl bash
 
 shell-32: _check-env-base
-	docker run --rm -it $(IMAGE_NAME):3.2 bash
+	docker run --rm -it $(IMAGE_NAME):3.2     bash
 
 
 # --------------------------------------------------------------------------
 rmi: _check-env-base
 	docker rmi $(IMAGE_NAME):2.6
+	docker rmi $(IMAGE_NAME):2.6-ssl
 	docker rmi $(IMAGE_NAME):3.2
 
 # --------------------------------------------------------------------------
