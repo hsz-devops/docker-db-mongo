@@ -55,4 +55,4 @@ RUN chmod -R a+x ./*.sh
 ADD ./cfg/mongod.base.conf /etc
 
 # ------------------------------------------------------------
-CMD ["/opt/.docker-build/run.sh"]
+CMD [ "./run.sh" ]

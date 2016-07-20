@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 set -m
 
 mongodb_cmd="mongod"
@@ -18,6 +19,11 @@ cmd="$mongodb_cmd --config /etc/mongod.base.conf --master"
 [ "$HTTP_ENABLED" == "yes" ] &&  cmd="$cmd --httpinterface"
 [ "$REST_ENABLED" == "yes" ] &&  cmd="$cmd --rest"
 
+# [ "$SSL_REQUIRED"     == "no" ] && cmd="$cmd --sslMode preferSSL"
+# [ "$SSL_PEM_KEY_PATH" != ""   ] && cmd="$cmd --sslPEMKeyFile $SSL_PEM_KEY_PATH"
+
+# # generate self-signed certificate for SSL if no certs are found
+# /opt/.docker-build/gen_self_signed_cert.sh  /var/lib/mongodb/_cert
 
 $cmd &
 

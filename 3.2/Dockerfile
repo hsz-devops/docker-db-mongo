@@ -6,6 +6,7 @@ FROM ubuntu:14.04
 MAINTAINER HighSkillz <webdev@highskillz.com>
 #      via Tutum Labs <support@tutum.co>
 
+# ------------------------------------------------------------
 ENV DEBIAN_FRONTEND="noninteractive"
 
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && \
@@ -54,4 +55,4 @@ RUN chmod -R a+x ./*.sh
 ADD ./cfg/mongod.base.conf /etc
 
 # ------------------------------------------------------------
-CMD ["/opt/.docker-build/run.sh"]
+CMD [ "./run.sh" ]
