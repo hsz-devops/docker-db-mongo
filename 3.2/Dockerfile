@@ -19,9 +19,10 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && \
         ca-certificates \
         openssl \
         ssl-cert \
+        pwgen \
     && \
     apt-get install -y --force-yes \
-        pwgen mongodb-org \
+        mongodb-org \
         mongodb-org-server \
         mongodb-org-shell \
         mongodb-org-mongos \
