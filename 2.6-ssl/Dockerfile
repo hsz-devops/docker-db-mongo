@@ -42,7 +42,7 @@ ENV MONGO_SSL_MODE  preferSSL
 
 # ------------------------------------------------------------
 WORKDIR /opt/.docker-build/
-ADD     ./src/*  ./
+ADD     ./src/  ./
 RUN chmod -R a+x ./*.sh
 
 RUN ./install-mongodb-ssl.sh
