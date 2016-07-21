@@ -51,5 +51,4 @@ RUN ./install-mongodb-ssl.sh
 ADD ./cfg/mongod.base.conf /etc
 
 # ------------------------------------------------------------
-#CMD [ "./run.sh" ]
-CMD [ "bash" ]
+CMD [ "./run.sh" ]
