@@ -4,7 +4,7 @@ IMAGE_NAME=ez123/db-mongo
 #TAG_VERSION=160715
 
 THIS_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-TIMESTAMP=$(shell date +"%Y%m%d_%H%M%S")
+TIMESTAMP=$(shell date -u +"%Y%m%d_%H%M%S%Z")
 
 BUILD_OPTS=--pull --force-rm
 #BUILD_OPTS=--force-rm
