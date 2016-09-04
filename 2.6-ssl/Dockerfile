@@ -18,6 +18,7 @@ RUN apt-get update \
         ca-certificates \
         openssl \
         ssl-cert \
+        less \
         pwgen \
     && \
     echo "..."
