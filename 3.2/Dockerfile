@@ -33,7 +33,11 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && \
     echo "mongodb-org-server hold" | dpkg --set-selections && \
     echo "mongodb-org-shell hold"  | dpkg --set-selections && \
     echo "mongodb-org-mongos hold" | dpkg --set-selections && \
-    echo "mongodb-org-tools hold"  | dpkg --set-selections
+    echo "mongodb-org-tools hold"  | dpkg --set-selections && \
+    \
+    apt-get autoremove -y --purge && \
+    apt-get clean -y && \
+    rm -rf /var/lib/apt/lists/*
 
 # ------------------------------------------------------------
 VOLUME [ "/var/lib/mongodb", "/var/log/mongodb" ]
