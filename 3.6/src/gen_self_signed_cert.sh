@@ -28,13 +28,13 @@ CERT_TYPE="rsa:${CERT_RSA_SIZE_BITS:-2048}"
 # ----------------------------------------------------------------
 [ -d "${TARGET_CERT_DIR}" ] || mkdir -p "${TARGET_CERT_DIR}"
 pushd "${TARGET_CERT_DIR}"
-ls -la mongodb-*.*
+ls -la mongodb-*.* || true
 
 # ----------------------------------------------------------------
 if [ ! -f ./mongodb-cert.crt ] || [ ! -f ./mongodb-cert.key ]; then
     FORCE_CERT_GEN=1
 fi
-if [ "${FORCE_CERT_GEN}" == "1" ]
+if [ "${FORCE_CERT_GEN}" == "1" ]; then
     openssl req \
         -new \
         -newkey ${CERT_TYPE} \

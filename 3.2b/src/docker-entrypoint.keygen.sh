@@ -6,14 +6,13 @@ set -e
 set -o pipefail
 #set -x
 
+# ----------------------------------------------------------------
 mongodb_cmd="mongod"
 
 #cmd="$mongodb_cmd --config /etc/mongod.base.conf --master"
 cmd="$mongodb_cmd "
 
-# we use the configs in /etc/mongod.conf by default
-# we only override via CLI if necessary
-
+# ----------------------------------------------------------------
 [ "${MGO__AUTH}" == "no" ] && cmd="$cmd --noauth"
 
 [ "$MGO__IPV6_ENABLED" != "no" ]  && cmd="$cmd --ipv6"
@@ -37,7 +36,7 @@ else
     cmd="$cmd --sslPEMKeyFile ${MGO__SSL_KEYDIR}/mongodb-key.pem"
 
     [ "${MGO__SSL_FORCE_NEW_KEY}" == "yes" ] && KEYGEN_FORCE="--force"
-    /usr/local/bin/gen_self_signed_cert.sh "${KEYGEN_FORCE}" "${MGO__SSL_KEYDIR}" "${MGO__SSL_HOSTNAME}"
+    /usr/local/bin/gen_self_signed_cert.sh ${KEYGEN_FORCE} "${MGO__SSL_KEYDIR}" "${MGO__SSL_HOSTNAME}"
 fi
 
 case "$1" in
@@ -48,6 +47,9 @@ case "$1" in
     "shell")
         exec bash $@
         ;;
+    "${mongodb_cmd}")
+        shift 1
+        ;&
     *)
         exec /usr/local/bin/docker-entrypoint.sh $cmd $@
         ;;

@@ -1,13 +1,10 @@
-# v2.0.0    2018-02-17     webmaster@highskillz.com
+# v2.1.0    2018-02-18     webmaster@highskillz.com
 #
 FROM mongo:3.6
 
 LABEL maintainer="webdev@highskillz.com"
 
-COPY ./src/docker-entrypoint.keygen.sh  /usr/local/bin
-COPY ./src/gen_self_signed_cert.sh      /usr/local/bin
-RUN chmod a+rxX /usr/local/bin/*.sh
-
+# ----------------------------------------------------------------
 # please set this the 1st time mongo is installed
 # ENV MONGO_INITDB_ROOT_USERNAME=
 # ENV MONGO_INITDB_ROOT_PASSWORD=
@@ -27,5 +24,11 @@ ENV MGO__SSL_FORCE_NEW_KEY=no
 ENV MGO__SSL_KEYDIR=/data/db/_certs
 ENV MGO__SSL_HOSTNAME=CHANGE-ME-to--the-public-DNS-name-used-by-clients
 
+# ----------------------------------------------------------------
+COPY ./src/docker-entrypoint.keygen.sh  /usr/local/bin
+COPY ./src/gen_self_signed_cert.sh      /usr/local/bin
+RUN chmod a+rxX /usr/local/bin/*.sh
+
+# ----------------------------------------------------------------
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.keygen.sh"]
 CMD ["mongod"]
