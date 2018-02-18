@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# v2.0.0-mongo    2018-02-16     webmaster@highskillz.com
+# v2.1.0-mongo    2018-02-18     webmaster@highskillz.com
 #
 set -e
 set -o pipefail
@@ -14,31 +14,41 @@ cmd="$mongodb_cmd "
 # we use the configs in /etc/mongod.conf by default
 # we only override via CLI if necessary
 
-[ "${MGODB__AUTH}" == "no" ] && cmd="$cmd --noauth"
+[ "${MGO__AUTH}" == "no" ] && cmd="$cmd --noauth"
 
-#[ "$MGODB_IPV6_ENABLED" != "no" ]  && cmd="$cmd --ipv6"
-#
-[ "${MGODB__JOURNALING}"  == "no"  ] &&  cmd="$cmd --nojournal"
-[ "${MGODB__OPLOG_SIZE}"  != ""    ] &&  cmd="$cmd --oplogSize $OPLOG_SIZE"
+[ "$MGO__IPV6_ENABLED" != "no" ]  && cmd="$cmd --ipv6"
 
-[ "${MGODB__HTTP_ENABLED}" == "yes" ] &&  cmd="$cmd --httpinterface"
-[ "${MGODB__REST_ENABLED}" == "yes" ] &&  cmd="$cmd --rest"
+[ "${MGO__JOURNALING}"  == "no"  ] &&  cmd="$cmd --nojournal"
+[ "${MGO__OPLOG_SIZE}"  != ""    ] &&  cmd="$cmd --oplogSize $OPLOG_SIZE"
 
-cmd="$cmd --storageEngine ${MGODB__STORAGE_ENGINE:-wiredTiger}"
+[ "${MGO__HTTP_ENABLED}" == "yes" ] &&  cmd="$cmd --httpinterface"
+[ "${MGO__REST_ENABLED}" == "yes" ] &&  cmd="$cmd --rest"
 
-if [ "${MGODB_SSL_DISABLED}" == "yes" ]; then
-    MGODB__SSL_MODE="none"
-fi
-MGODB__SSL_MODE="${MGODB__SSL_MODE:-requireSSL}"
-MGODB__SSL_KEYFILE="${MGODB__SSL_KEYFILE:-/etc/ssl}"
+cmd="$cmd --storageEngine ${MGO__STORAGE_ENGINE:-wiredTiger}"
 
-cmd="$cmd --sslMode       ${MGODB__SSL_MODE}"
-cmd="$cmd --sslPEMKeyFile ${MGODB__SSL_KEYFILE}/mongodb-key.pem"
-
-/usr/local/bin/gen_self_signed_cert.sh  ${MGODB__SSL_KEYFILE}
-
-if [ "$1" == "mongod" ]; then
-    exec /usr/local/bin/docker-entrypoint.sh $@
+# ----------------------------------------------------------------
+if [ "${MGO__SSL_DISABLED}" == "yes" ]; then
+    MGO__SSL_MODE="none"
 else
-    exec /usr/local/bin/docker-entrypoint.sh $cmd $@
+    MGO__SSL_MODE="${MGO__SSL_MODE:-requireSSL}"
+    MGO__SSL_KEYDIR="${MGO__SSL_KEYDIR:-/etc/ssl}"
+
+    cmd="$cmd --sslMode       ${MGO__SSL_MODE}"
+    cmd="$cmd --sslPEMKeyFile ${MGO__SSL_KEYDIR}/mongodb-key.pem"
+
+    [ "${MGO__SSL_FORCE_NEW_KEY}" == "yes" ] && KEYGEN_FORCE="--force"
+    /usr/local/bin/gen_self_signed_cert.sh "${KEYGEN_FORCE}" "${MGO__SSL_KEYDIR}" "${MGO__SSL_HOSTNAME}"
 fi
+
+case "$1" in
+    # for convenience, we detect "bash" or "shell" to override the default entrypoint
+    "bash")
+        shift 1
+        ;&
+    "shell")
+        exec bash $@
+        ;;
+    *)
+        exec /usr/local/bin/docker-entrypoint.sh $cmd $@
+        ;;
+esac
