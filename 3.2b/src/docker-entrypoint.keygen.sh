@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# v2.1.0-mongo    2018-02-18     webmaster@highskillz.com
+# v2.2.0-mongo    2018-02-19    webmaster@highskillz.com, tapanhalani231@gmail.com
 #
 set -e
 set -o pipefail
@@ -23,6 +23,38 @@ cmd="$mongodb_cmd "
 [ "${MGO__HTTP_ENABLED}" == "yes" ] &&  cmd="$cmd --httpinterface"
 [ "${MGO__REST_ENABLED}" == "yes" ] &&  cmd="$cmd --rest"
 
+# ----------------------------------------------------------------
+if [ "${MGO__REPLICATION_ENABLED}" == "yes" ]; then
+    if [ -z "${MGO__REPLSET_NAME}" ]; then
+        echo "Error: Missing replica set name!"
+        exit -2
+    fi
+
+    cmd="$cmd --replSet $MGO__REPLSET_NAME"
+
+    if [ "${MGO__CLUSTER_INTERNAL_AUTH_ENABLED}" == "yes" ]; then
+        if [ "${MGO__CLUSTER_INTERAL_AUTH_MODE}" == "keyFile" ]; then
+            if [ -z "${MGO__CLUSTER_INTERAL_AUTH_KEYFILE}" ]; then
+                echo "Error: Missing cluster internal auth keyfile path!"
+                exit -2
+            fi
+            if [ ! -f "${MGO__CLUSTER_INTERAL_AUTH_KEYFILE}" ]; then
+                echo "Error: Cluster internal auth keyfile does not exist!"
+                exit -3
+            fi
+
+            chmod 0400            "${MGO__CLUSTER_INTERAL_AUTH_KEYFILE}"
+            chown mongodb:mongodb "${MGO__CLUSTER_INTERAL_AUTH_KEYFILE}"
+
+            cmd="$cmd --clusterAuthMode $MGO__CLUSTER_INTERAL_AUTH_MODE --keyFile $MGO__CLUSTER_INTERAL_AUTH_KEYFILE"
+        else
+            echo "Error: Only keyFile internal auth mode supported for now!"
+            exit -4
+        fi
+    fi
+fi
+
+# ----------------------------------------------------------------
 cmd="$cmd --storageEngine ${MGO__STORAGE_ENGINE:-wiredTiger}"
 
 # ----------------------------------------------------------------

@@ -3,6 +3,7 @@
 FROM mongo:3.2
 
 LABEL maintainer="webdev@highskillz.com"
+LABEL authors="webdev@highskillz.com,tapanhalani231@gmail.com"
 
 # ----------------------------------------------------------------
 # please set this the 1st time mongo is installed
@@ -23,6 +24,11 @@ ENV MGO__SSL_FORCE_NEW_KEY=no
 # we are keeping the cert in the DB folder to have persistency
 ENV MGO__SSL_KEYDIR=/data/db/_certs
 ENV MGO__SSL_HOSTNAME=CHANGE-ME-to--the-public-DNS-name-used-by-clients
+
+ENV MGO__REPLICATION_ENABLED=no
+#ENV MGO__REPLSET_NAME=
+ENV MGO__CLUSTER_INTERNAL_AUTH_ENABLED=no
+ENV MGO__CLUSTER_INTERAL_AUTH_MODE=keyFile
 
 # ----------------------------------------------------------------
 COPY ./src/docker-entrypoint.keygen.sh  /usr/local/bin
