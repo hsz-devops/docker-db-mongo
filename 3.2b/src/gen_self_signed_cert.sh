@@ -4,7 +4,7 @@
 #
 set -e
 set -o pipefail
-#set -x
+set -x
 
 # [--force] [<cert_dir_name> [<cert_name_cn>]]
 

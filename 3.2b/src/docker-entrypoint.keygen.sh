@@ -4,7 +4,7 @@
 #
 set -e
 set -o pipefail
-#set -x
+set -x
 
 # ----------------------------------------------------------------
 mongodb_cmd="mongod"
