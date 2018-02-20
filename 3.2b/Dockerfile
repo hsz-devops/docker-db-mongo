@@ -28,7 +28,7 @@ ENV MGO__SSL_HOSTNAME=CHANGE-ME-to--the-public-DNS-name-used-by-clients
 ENV MGO__REPLICATION_ENABLED=no
 #ENV MGO__REPLSET_NAME=
 ENV MGO__CLUSTER_INTERNAL_AUTH_ENABLED=no
-ENV MGO__CLUSTER_INTERAL_AUTH_MODE=keyFile
+ENV MGO__CLUSTER_INTERNAL_AUTH_MODE=keyFile
 
 # need to test whether we can mount a volume with a volume
 ENV MGO__CLUSTER_INTERNAL_AUTH_KEYFILE=/data/_certs/mongodb-internal-auth.keyfile
