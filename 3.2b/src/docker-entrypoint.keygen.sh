@@ -67,8 +67,12 @@ else
     cmd="$cmd --sslMode       ${MGO__SSL_MODE}"
     cmd="$cmd --sslPEMKeyFile ${MGO__SSL_KEYDIR}/mongodb-key.pem"
 
-    [ "${MGO__SSL_FORCE_NEW_KEY}" == "yes" ] && KEYGEN_FORCE="--force"
-    /usr/local/bin/gen_self_signed_cert.sh ${KEYGEN_FORCE} "${MGO__SSL_KEYDIR}" "${MGO__SSL_HOSTNAME}"
+    if [ "${MGO__SSL_SELFSIGN_GEN}" == "yes" ]; then
+        if [ "${MGO__SSL_FORCE_NEW_KEY}" == "yes" ]; then
+            KEYGEN_FORCE="--force"
+        fi
+        /usr/local/bin/gen_self_signed_cert.sh ${KEYGEN_FORCE} "${MGO__SSL_KEYDIR}" "${MGO__SSL_HOSTNAME}"
+    fi
 fi
 
 case "$1" in
