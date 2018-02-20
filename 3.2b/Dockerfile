@@ -30,6 +30,9 @@ ENV MGO__REPLICATION_ENABLED=no
 ENV MGO__CLUSTER_INTERNAL_AUTH_ENABLED=no
 ENV MGO__CLUSTER_INTERAL_AUTH_MODE=keyFile
 
+# need to test whether we can mount a volume with a volume
+ENV MGO__CLUSTER_INTERNAL_AUTH_KEYFILE=/data/_certs/mongodb-internal-auth.keyfile
+
 # ----------------------------------------------------------------
 COPY ./src/docker-entrypoint.keygen.sh  /usr/local/bin
 COPY ./src/gen_self_signed_cert.sh      /usr/local/bin

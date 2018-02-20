@@ -33,20 +33,20 @@ if [ "${MGO__REPLICATION_ENABLED}" == "yes" ]; then
     cmd="$cmd --replSet $MGO__REPLSET_NAME"
 
     if [ "${MGO__CLUSTER_INTERNAL_AUTH_ENABLED}" == "yes" ]; then
-        if [ "${MGO__CLUSTER_INTERAL_AUTH_MODE}" == "keyFile" ]; then
-            if [ -z "${MGO__CLUSTER_INTERAL_AUTH_KEYFILE}" ]; then
+        if [ "${MGO__CLUSTER_INTERNAL_AUTH_MODE}" == "keyFile" ]; then
+            if [ -z "${MGO__CLUSTER_INTERNAL_AUTH_KEYFILE}" ]; then
                 echo "Error: Missing cluster internal auth keyfile path!"
                 exit -2
             fi
-            if [ ! -f "${MGO__CLUSTER_INTERAL_AUTH_KEYFILE}" ]; then
+            if [ ! -f "${MGO__CLUSTER_INTERNAL_AUTH_KEYFILE}" ]; then
                 echo "Error: Cluster internal auth keyfile does not exist!"
                 exit -3
             fi
 
-            chmod 0400            "${MGO__CLUSTER_INTERAL_AUTH_KEYFILE}"
-            chown mongodb:mongodb "${MGO__CLUSTER_INTERAL_AUTH_KEYFILE}"
+            chmod 0400            "${MGO__CLUSTER_INTERNAL_AUTH_KEYFILE}"
+            chown mongodb:mongodb "${MGO__CLUSTER_INTERNAL_AUTH_KEYFILE}"
 
-            cmd="$cmd --clusterAuthMode $MGO__CLUSTER_INTERAL_AUTH_MODE --keyFile $MGO__CLUSTER_INTERAL_AUTH_KEYFILE"
+            cmd="$cmd --clusterAuthMode $MGO__CLUSTER_INTERNAL_AUTH_MODE --keyFile $MGO__CLUSTER_INTERNAL_AUTH_KEYFILE"
         else
             echo "Error: Only keyFile internal auth mode supported for now!"
             exit -4
