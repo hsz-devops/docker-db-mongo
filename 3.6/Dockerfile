@@ -1,4 +1,4 @@
-# v2.1.0    2018-02-18     webmaster@highskillz.com
+# v2.2.0    2018-02-20     webmaster@highskillz.com
 #
 FROM mongo:3.6
 
@@ -20,9 +20,19 @@ ENV MGO__IPV6_ENABLED=no
 ENV MGO__SSL_DISABLED=no
 ENV MGO__SSL_MODE=requireSSL
 ENV MGO__SSL_FORCE_NEW_KEY=no
+
 # we are keeping the cert in the DB folder to have persistency
-ENV MGO__SSL_KEYDIR=/data/db/_certs
+ENV MGO__SSL_KEYDIR=/data/_certs
 ENV MGO__SSL_HOSTNAME=CHANGE-ME-to--the-public-DNS-name-used-by-clients
+ENV MGO__SSL_SELFSIGN_GEN=yes
+
+ENV MGO__REPLICATION_ENABLED=no
+#ENV MGO__REPLSET_NAME=
+ENV MGO__CLUSTER_INTERNAL_AUTH_ENABLED=no
+ENV MGO__CLUSTER_INTERNAL_AUTH_MODE=keyFile
+
+# need to test whether we can mount a volume with a volume
+ENV MGO__CLUSTER_INTERNAL_AUTH_KEYFILE=/data/_certs/mongodb-internal-auth.keyfile
 
 # ----------------------------------------------------------------
 COPY ./src/docker-entrypoint.keygen.sh  /usr/local/bin
