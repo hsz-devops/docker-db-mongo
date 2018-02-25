@@ -73,7 +73,7 @@ else
         fi
         /usr/local/bin/gen_self_signed_cert.sh ${KEYGEN_FORCE} "${MGO__SSL_KEYDIR}" "${MGO__SSL_HOSTNAME}"
 
-        cmd="$cmd –sslAllowConnectionsWithoutCertificates"
+        cmd="$cmd --sslAllowConnectionsWithoutCertificates"
     fi
 fi
 
