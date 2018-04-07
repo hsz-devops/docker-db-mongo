@@ -3,6 +3,7 @@
 FROM mongo:3.6
 
 LABEL maintainer="webdev@highskillz.com"
+LABEL authors="webdev@highskillz.com,tapanhalani231@gmail.com"
 
 # ----------------------------------------------------------------
 # please set this the 1st time mongo is installed
