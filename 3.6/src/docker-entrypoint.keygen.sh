@@ -43,8 +43,14 @@ if [ "${MGO__REPLICATION_ENABLED}" == "yes" ]; then
                 exit -3
             fi
 
-            chmod 0400            "${MGO__CLUSTER_INTERNAL_AUTH_KEYFILE}" || true
-            chown mongodb:mongodb "${MGO__CLUSTER_INTERNAL_AUTH_KEYFILE}" || true
+            # workaround for the fact that kubernetes mounts secrets as root:root
+            # while mongodb doesn't allow access by others
+            NEW_INT_CIAK="/tmp/$(basename ${MGO__CLUSTER_INTERNAL_AUTH_KEYFILE})"
+            cp "${MGO__CLUSTER_INTERNAL_AUTH_KEYFILE}" "${NEW_INT_CIAK}"
+            export MGO__CLUSTER_INTERNAL_AUTH_KEYFILE="${NEW_INT_CIAK}"
+
+            chmod 0400            "${MGO__CLUSTER_INTERNAL_AUTH_KEYFILE}"
+            chown mongodb:mongodb "${MGO__CLUSTER_INTERNAL_AUTH_KEYFILE}"
 
             cmd="$cmd --clusterAuthMode $MGO__CLUSTER_INTERNAL_AUTH_MODE --keyFile $MGO__CLUSTER_INTERNAL_AUTH_KEYFILE"
         else
