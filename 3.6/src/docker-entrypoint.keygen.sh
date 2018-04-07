@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# v2.1.0-mongo    2018-02-18     webmaster@highskillz.com
+# v2.2.0-mongo    2018-02-19    webmaster@highskillz.com, tapanhalani231@gmail.com
 #
 set -e
 set -o pipefail
@@ -43,8 +43,8 @@ if [ "${MGO__REPLICATION_ENABLED}" == "yes" ]; then
                 exit -3
             fi
 
-            chmod 0400            "${MGO__CLUSTER_INTERNAL_AUTH_KEYFILE}"
-            chown mongodb:mongodb "${MGO__CLUSTER_INTERNAL_AUTH_KEYFILE}"
+            chmod 0400            "${MGO__CLUSTER_INTERNAL_AUTH_KEYFILE}" || true
+            chown mongodb:mongodb "${MGO__CLUSTER_INTERNAL_AUTH_KEYFILE}" || true
 
             cmd="$cmd --clusterAuthMode $MGO__CLUSTER_INTERNAL_AUTH_MODE --keyFile $MGO__CLUSTER_INTERNAL_AUTH_KEYFILE"
         else
