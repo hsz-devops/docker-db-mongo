@@ -68,7 +68,7 @@ if [ "${MGO__STORAGE_DIR_PER_DB}" != "no" ]; then
 fi
 
 if [ "${MGO__STORAGE_DIR_FOR_INDEXES}" != "no" ]; then
-    cmd="$cmd --directoryForIndexes"
+    cmd="$cmd --directoryforindexes"
 fi
 
 # ----------------------------------------------------------------
