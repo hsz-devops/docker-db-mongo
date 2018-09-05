@@ -67,6 +67,10 @@ if [ "${MGO__STORAGE_DIR_PER_DB}" != "no" ]; then
     cmd="$cmd --directoryperdb"
 fi
 
+if [ "${MGO__STORAGE_DIR_FOR_INDEXES}" != "no" ]; then
+    cmd="$cmd --directoryForIndexes"
+fi
+
 # ----------------------------------------------------------------
 if [ "${MGO__SSL_DISABLED}" == "yes" ]; then
     MGO__SSL_MODE="none"
