@@ -63,6 +63,10 @@ fi
 # ----------------------------------------------------------------
 cmd="$cmd --storageEngine ${MGO__STORAGE_ENGINE:-wiredTiger}"
 
+if [ "${MGO__STORAGE_DIR_PER_DB}" != "no" ]; then
+    cmd="$cmd --directoryperdb"
+fi
+
 # ----------------------------------------------------------------
 if [ "${MGO__SSL_DISABLED}" == "yes" ]; then
     MGO__SSL_MODE="none"

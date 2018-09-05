@@ -23,10 +23,12 @@ _build_image: _check-env-base
 	# docker build $(_DOCKER_BUILD_OPTS) -t $(IMAGE_NAME):2.6-ssl ./2.6-ssl
 	# docker build $(_DOCKER_BUILD_OPTS) -t $(IMAGE_NAME):3.2     ./3.2
 	docker build $(_DOCKER_BUILD_OPTS) -t $(IMAGE_NAME):3.2b    ./3.2b
+	docker build $(_DOCKER_BUILD_OPTS) -t $(IMAGE_NAME):3.4tmp  ./3.4tmp
 	docker build $(_DOCKER_BUILD_OPTS) -t $(IMAGE_NAME):3.6     ./3.6
 
 docker-push:
 	docker push $(IMAGE_NAME):3.2b
+	docker push $(IMAGE_NAME):3.4tmp
 	docker push $(IMAGE_NAME):3.6
 
 # --------------------------------------------------------------------------
@@ -59,6 +61,7 @@ rmi: _check-env-base
 	# docker rmi $(IMAGE_NAME):2.6-ssl
 	# docker rmi $(IMAGE_NAME):3.2
 	docker rmi $(IMAGE_NAME):3.2b
+	docker rmi $(IMAGE_NAME):3.4tmp
 	docker rmi $(IMAGE_NAME):3.6
 
 # --------------------------------------------------------------------------
