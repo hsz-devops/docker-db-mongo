@@ -9,33 +9,35 @@ LABEL authors="webdev@highskillz.com,tapanhalani231@gmail.com"
 # please set this the 1st time mongo is installed
 # ENV MONGO_INITDB_ROOT_USERNAME=
 # ENV MONGO_INITDB_ROOT_PASSWORD=
+ENV \
+    MGO__AUTH=yes \
+    MGO__JOURNALING=yes \
+    MGO__STORAGE_ENGINE=wiredTiger \
+#   MGO__OPLOG_SIZE= \
+    MGO__STORAGE_DIR_PER_DB=yes \
+    MGO__STORAGE_DIR_FOR_INDEXES=yes \
+    MGO__HTTP_ENABLED=no \
+    MGO__REST_ENABLED=no \
+    MGO__IPV6_ENABLED=no \
 
-ENV MGO__AUTH=yes
-ENV MGO__JOURNALING=yes
-ENV MGO__STORAGE_ENGINE=wiredTiger
-#ENV MGO__OPLOG_SIZE=
-ENV MGO__STORAGE_DIR_PER_DB=yes
-ENV MGO__STORAGE_DIR_FOR_INDEXES=yes
-ENV MGO__HTTP_ENABLED=no
-ENV MGO__REST_ENABLED=no
-ENV MGO__IPV6_ENABLED=no
-
-ENV MGO__SSL_DISABLED=no
-ENV MGO__SSL_MODE=requireSSL
-ENV MGO__SSL_FORCE_NEW_KEY=no
+    MGO__SSL_DISABLED=no \
+    MGO__SSL_MODE=requireSSL \
+    MGO__SSL_FORCE_NEW_KEY=no \
 
 # we are keeping the cert in the DB folder to have persistency
-ENV MGO__SSL_KEYDIR=/data/_certs
-ENV MGO__SSL_HOSTNAME=CHANGE-ME-to--the-public-DNS-name-used-by-clients
-ENV MGO__SSL_SELFSIGN_GEN=yes
+    MGO__SSL_KEYDIR=/data/_certs \
+    MGO__SSL_HOSTNAME=CHANGE-ME-to--the-public-DNS-name-used-by-clients \
+    MGO__SSL_SELFSIGN_GEN=yes \
 
-ENV MGO__REPLICATION_ENABLED=no
-#ENV MGO__REPLSET_NAME=
-ENV MGO__CLUSTER_INTERNAL_AUTH_ENABLED=no
-ENV MGO__CLUSTER_INTERNAL_AUTH_MODE=keyFile
+    MGO__REPLICATION_ENABLED=no \
+#   MGO__REPLSET_NAME= \
+    MGO__CLUSTER_INTERNAL_AUTH_ENABLED=no \
+    MGO__CLUSTER_INTERNAL_AUTH_MODE=keyFile \
 
 # need to test whether we can mount a volume with a volume
-ENV MGO__CLUSTER_INTERNAL_AUTH_KEYFILE=/data/_certs/mongodb-internal-auth.keyfile
+    MGO__CLUSTER_INTERNAL_AUTH_KEYFILE=/data/_certs/mongodb-internal-auth.keyfile \
+
+    MGO_______dummy=1
 
 # ----------------------------------------------------------------
 COPY ./src/docker-entrypoint.keygen.sh  /usr/local/bin

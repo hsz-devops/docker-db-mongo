@@ -67,8 +67,10 @@ if [ "${MGO__STORAGE_DIR_PER_DB}" != "no" ]; then
     cmd="$cmd --directoryperdb"
 fi
 
-if [ "${MGO__STORAGE_DIR_FOR_INDEXES}" != "no" ]; then
-    cmd="$cmd --directoryforindexes"
+if [ "${MGO__STORAGE_ENGINE}" == "wiredTiger" ]; then
+    if [ "${MGO__STORAGE_DIR_FOR_INDEXES}" != "no" ]; then
+        cmd="$cmd --wiredTigerDirectoryForIndexes"
+    fi
 fi
 
 # ----------------------------------------------------------------
