@@ -38,6 +38,8 @@ ENV \
 # need to test whether we can mount a volume with a volume
     MGO__CLUSTER_INTERNAL_AUTH_KEYFILE=/data/_certs/mongodb-internal-auth.keyfile \
 
+    MGO__EXTRA_FLAGS="" \
+
     MGO_______dummy=1
 
 # ----------------------------------------------------------------

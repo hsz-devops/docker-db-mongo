@@ -93,6 +93,10 @@ else
     fi
 fi
 
+# ----------------------------------------------------------------
+cmd="$cmd ${MGO__EXTRA_FLAGS}"
+
+# ----------------------------------------------------------------
 case "$1" in
     # for convenience, we detect "bash" or "shell" to override the default entrypoint
     "bash")
